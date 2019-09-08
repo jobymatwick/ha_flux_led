@@ -3,7 +3,7 @@
 sleep 1
 
 # Get current light state
-TESTVAR=$(python3 -m flux_led -i 192.168.68.104)
+TESTVAR=$(python3 -m flux_led -i $1)
 TEST2=$(awk -F"(" '{print $2}' <<< $TESTVAR)
 TEST3=$(awk -F")" '{print $1}' <<< $TEST2)
 
@@ -32,9 +32,9 @@ BLUMAX=$(echo "( 255 / $MAX ) * $BLU" | bc -l)
 echo "scale:  red: $REDMAX grn: $GRNMAX blu: $BLUMAX" >> /lighttest
 
 # Scale to new brightness
-RED=$(echo "$REDMAX * $1" | bc -l)
-GRN=$(echo "$GRNMAX * $1" | bc -l)
-BLU=$(echo "$BLUMAX * $1" | bc -l)
+RED=$(echo "$REDMAX * $2" | bc -l)
+GRN=$(echo "$GRNMAX * $2" | bc -l)
+BLU=$(echo "$BLUMAX * $2" | bc -l)
 
 echo "output: red: $RED grn: $GRN blu: $BLU" >> /lighttest
 
@@ -45,4 +45,4 @@ BLUROUND=$(echo $BLU | awk '{printf("%d\n",$1 + 0.5)}')
 echo "rounded:  red: $REDROUND grn: $GRNROUND blu: $BLUROUND" >> /lighttest
 
 # Set Brightness
-python3 -m flux_led 192.168.68.104 -c $REDROUND,$GRNROUND,$BLUROUND
+python3 -m flux_led $1 -c $REDROUND,$GRNROUND,$BLUROUND

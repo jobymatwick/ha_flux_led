@@ -3,7 +3,7 @@
 # Sleep for 1 second because some hue control devices set the color then the brightness. 
 # If this script is called too soon after the color is changed, 
 # it will set to the new brightness of the old color
-sleep 1
+sleep 0.5
 
 # Get current status
 TESTVAR=$(python3 -m flux_led -i $1)
